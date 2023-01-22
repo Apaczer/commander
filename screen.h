@@ -3,6 +3,12 @@
 
 #include <SDL.h>
 
+#if defined(TRIMUISMART) && defined(VSYNCWAIT)
+#include <fcntl.h>
+#include <linux/fb.h>
+#include <sys/ioctl.h>
+#endif
+
 #include "config.h"
 
 struct Screen
@@ -35,6 +41,28 @@ struct Screen
 			SDL_Log("%s", SDL_GetError());
 		}
 		surface = SDL_GetWindowSurface(window);
+#elif TRIMUISMART
+	SDL_Surface *video = SDL_GetVideoSurface();
+	// 320x240 rotate 90 CCW
+	uint32_t	*s, *d, pix1, pix2;
+	int		x, y;
+	s = (uint32_t*)surface->pixels + 159;
+	d = (uint32_t*)video->pixels;
+	for (x=160; x>0; x--, s -= 160*240+1, d += 120) {
+		for (y=120; y>0; y--, s += 320, d++) {
+			pix1 = s[0];					// read AB
+			pix2 = s[160];					// read CD
+			d[0] = (pix1>>16) | (pix2 & 0xFFFF0000);	// write BD
+			d[120] = (pix1 & 0xFFFF) | (pix2<<16);		// write AC
+		}
+	}
+#ifdef VSYNCWAIT
+	static int framebuffer_fd = 0;
+	int dmy;
+	if (!framebuffer_fd) framebuffer_fd = open("/dev/fb0", O_RDWR);
+	if (framebuffer_fd) ioctl(framebuffer_fd, FBIO_WAITFORVSYNC, &dmy);
+#endif
+	SDL_Flip(video);
 #else
       SDL_Flip(surface);
       surface = SDL_GetVideoSurface();

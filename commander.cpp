@@ -103,7 +103,7 @@ bool CCommander::keyPress(
 {
     CWindow::keyPress(event, key, button);
     const auto &c = config();
-    if (key == c.key_system || button == c.gamepad_system) {
+    if (key == c.key_system || (key == c.key_menu) || button == c.gamepad_system) {	// added MENU for TRIMUI
         if (openSystemMenu()) m_panelSource->refresh();
         return true;
     }

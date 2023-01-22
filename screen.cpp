@@ -59,16 +59,6 @@ int Screen::init()
     screen.actual_w = cfg.disp_width * cfg.disp_ppu_x;
     screen.actual_h = cfg.disp_height * cfg.disp_ppu_y;
 
-#ifndef USE_SDL2
-    const auto &best = *SDL_GetVideoInfo();
-    std::fprintf(stderr,
-        "Best video mode reported as: %dx%d bpp=%d hw_available=%u\n",
-        best.current_w, best.current_h, best.vfmt->BitsPerPixel,
-        best.hw_available);
-    MaybeHeuristicAutoscale(cfg, best.current_w, best.current_h);
-    screen.setPhysicalResolution(best.current_w, best.current_h);
-#endif
-
 #ifdef USE_SDL2
     int window_flags = SDL_WINDOW_RESIZABLE;
     if (cfg.disp_autoscale) window_flags |= SDL_WINDOW_MAXIMIZED;
@@ -110,8 +100,23 @@ int Screen::init()
         SDL_Log("SDL_GetWindowSurface failed: %s", SDL_GetError());
     }
 #else
+#ifdef TRIMUISMART
+	setenv("SDL_USE_PAN", "true", 1);	// allow DOUBLEBUF
+	SDL_SetVideoMode(240, 320, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
+	surface = SDL_CreateRGBSurface(SDL_SWSURFACE, 320, 240, 16, 0,0,0,0);
+	MaybeHeuristicAutoscale(cfg, 320, 240);
+	screen.setPhysicalResolution(320, 240);
+#else
+    const auto &best = *SDL_GetVideoInfo();
+    std::fprintf(stderr,
+        "Best video mode reported as: %dx%d bpp=%d hw_available=%u\n",
+        best.current_w, best.current_h, best.vfmt->BitsPerPixel,
+        best.hw_available);
+    MaybeHeuristicAutoscale(cfg, best.current_w, best.current_h);
+    screen.setPhysicalResolution(best.current_w, best.current_h);
     surface = SetVideoMode(screen.actual_w, screen.actual_h, SCREEN_BPP,
         SDL_SWSURFACE | SDL_RESIZABLE);
+#endif
     if (surface == nullptr) {
         std::fprintf(stderr, "SDL_SetVideoMode failed: %s\n", SDL_GetError());
         return 1;

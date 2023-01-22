@@ -44,7 +44,7 @@ struct Config {
     SDLC_Keycode key_system = CMDR_KEY_SYSTEM;
     SDLC_Keycode key_transfer = CMDR_KEY_TRANSFER;
     SDLC_Keycode key_up = CMDR_KEY_UP;
-
+    SDLC_Keycode key_menu = CMDR_KEY_MENU;	// added for TRIMUI
 
     // Gamepad mappings (only used with SDL2)
     ControllerButton gamepad_down = CMDR_GAMEPAD_DOWN;

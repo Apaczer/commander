@@ -227,6 +227,9 @@ void hastalavista(void)
         delete Globals::g_windows.back();
     // Free resources
     CResourceManager::instance().sdlCleanup();
+#ifdef TRIMUISMART
+    SDL_FreeSurface(screen.surface);
+#endif
     // Quit SDL
     TTF_Quit();
     IMG_Quit();
