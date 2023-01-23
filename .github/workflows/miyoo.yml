@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: build
-      run: make
+      run: make -f Makefile.miyoo
     - uses: actions/upload-artifact@v3
       with:
         name: Commander binary
