@@ -22,10 +22,9 @@ CXXFLAGS += -DCMDR_KEY_PAGEUP=SDLK_TAB		# L
 CXXFLAGS += -DCMDR_KEY_PAGEDOWN=SDLK_BACKSPACE	# R
 CXXFLAGS += -DCMDR_KEY_SELECT=SDLK_ESCAPE	# SELECT
 CXXFLAGS += -DCMDR_KEY_TRANSFER=SDLK_RETURN	# START
-CXXFLAGS += -DCMDR_KEY_MENU=SDLK_RCTRL		# MENU (added)
 CXXFLAGS += -DOSK_KEY_SYSTEM_IS_BACKSPACE=ON
-#CXXFLAGS += -DFONTS='{"/mnt/fonts/OPPOSans-B-2.ttf",10},{"/mnt/fonts/Samsung-Sharp-Sans-Bold-2.ttf",10}'
-#CXXFLAGS += -DLOW_DPI_FONTS='{"Fiery_Turk.ttf",8},{"/usr/fonts/OPPOSans-B-2.ttf",9}'
+CXXFLAGS += -DFONTS='{"DejaVuSansCondensed.ttf",10},{"FreeSans.ttf",10},{"DroidSansFallback.ttf",9}'
+CXXFLAGS += -DLOW_DPI_FONTS='{"Fiery_Turk.ttf",8},{"DejaVuSansCondensed.ttf",10},{"FreeSans.ttf",10},{"DroidSansFallback.ttf",9}'
 LTO := -flto
 
 RESDIR := res
