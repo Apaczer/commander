@@ -1,7 +1,3 @@
-#
-#	DinguxCommander Makefile for TRIMUI smart
-#		based on https://github.com/od-contrib/commander
-#
 
 CXX := /opt/miyoo/usr/bin/arm-miyoo-linux-uclibcgnueabi-g++
 CXXFLAGS := -Os
