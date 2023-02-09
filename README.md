@@ -1,6 +1,6 @@
 # DinguxCommander
 
-DinguxCommander is a file manager for RetroFW.
+DinguxCommander is a file manager for MiyooCFW.
 It uses two vertical panels side by side, one being the source and the other the
 destination, like many 'commander-style' file managers such as Norton Commander
 or Midnight Commander.
@@ -15,25 +15,19 @@ DinguxCommander allows to:
 * Display disk information (used, available, total)
 
 ## Building
+1. Set up your environment with legacy dynamic uClibc toolchain: 
 
-To build for RetroFW, run:
-
-```bash
-BUILDROOT=<path to buildroot> ./build.sh retrofw
+```
+cd
+wget https://github.com/steward-fu/miyoo/releases/download/v1.0/toolchain.7z
+7za x toolchain.7z
+sudo cp -a miyoo /opt/
 ```
 
-To build for RG350/GKD350h, run:
+2. Build output with Makefile for MiyooCFW:
 
-```bash
-BUILDROOT=<path to buildroot> ./build.sh rg350
 ```
-
-The package will be built at `build-retrofw/commander.ipk`.
-
-To build for the host system, run:
-
-```bash
-./build-host.sh
+make -f Makefile.miyoo
 ```
 
 ## Controls
