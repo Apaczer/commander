@@ -6,9 +6,9 @@ on: [push, pull_request]
 jobs:   
   build-modern:
     name: Commander Miyoo
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     container:
-      image: nfriedly/miyoo-toolchain:steward
+      image: miyoocfw/toolchain-shared-uclibc
     steps:
     - uses: actions/checkout@v3
     - name: build
@@ -16,5 +16,5 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: Commander binary
-        path: output/DinguxCommander
+        path: output/commander
         if-no-files-found: error # 'error', 'warn', 'ignore'; defaults to `warn`
