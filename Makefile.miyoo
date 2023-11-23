@@ -1,7 +1,8 @@
 
 CXX := /opt/miyoo/usr/bin/arm-miyoo-linux-uclibcgnueabi-g++
 CXXFLAGS := -Os
-SDL_CONFIG := /opt/miyoo/arm-miyoo-linux-uclibcgnueabi/sysroot/usr/bin/sdl-config
+SYSROOT := $(shell $(CXX) --print-sysroot)
+SDL_CONFIG := $(SYSROOT)/usr/bin/sdl-config
 CXXFLAGS += $(shell $(SDL_CONFIG) --cflags)
 
 CXXFLAGS += -DPATH_DEFAULT=\"/mnt\"
@@ -24,7 +25,7 @@ CXXFLAGS += -DLOW_DPI_FONTS='{"Fiery_Turk.ttf",8},{"DejaVuSansCondensed.ttf",10}
 LTO := -flto
 
 RESDIR := res
-CXXFLAGS += -DRESDIR="\"$(RESDIR)\""
+CXXFLAGS += -DRES_DIR="\"$(RESDIR)\""
 
 LINKFLAGS += -s
 LINKFLAGS += $(shell $(SDL_CONFIG) --libs) -lSDL_image -lSDL_ttf
@@ -34,7 +35,7 @@ SUM := @echo
 
 OUTDIR := ./output
 
-EXECUTABLE := $(OUTDIR)/DinguxCommander
+EXECUTABLE := $(OUTDIR)/commander
 
 OBJS :=	main.o commander.o config.o dialog.o fileLister.o fileutils.o keyboard.o panel.o resourceManager.o \
 	screen.o sdl_ttf_multifont.o sdlutils.o text_edit.o utf8.o text_viewer.o image_viewer.o  window.o \
